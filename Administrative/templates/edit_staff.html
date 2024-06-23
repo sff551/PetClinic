@@ -1,0 +1,230 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta property="og:type" content="website" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            --scrollcolor: #fff;
+            --scrollbackground: #161d14;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 80vh;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            color: #231709;
+            background-image: url('{% static "adminbg.jpg" %}');
+            background-size: cover;
+            background-position: center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed; 
+        }
+        .title {
+            font-size: 2.5rem;
+            font-family: system-ui;
+            line-height: 1.1;
+            font-weight: 300;
+            color: #fff;
+            margin: 4rem auto 1rem;
+            width: 85%;
+            max-width: 1280px;
+        }
+
+        #menu {
+            font-size: 25px;
+            cursor: pointer;
+            background-color: #C7ABAB;
+            color: #fff;
+            padding: 30px;
+        }
+        
+        header {
+            background-color: #686561d4;
+            color: #fff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding-right: 30px;
+        }
+        @import url(https://fonts.googleapis.com/css?family=Poppins:400,300,500);
+        html {
+            box-sizing: border-box;
+        }
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        article {
+            margin: auto;
+            display: block;
+            width: calc(60vw + 248px);
+            max-width: calc(920px + 248px);
+            min-width: calc(640px + 248px); 
+        }
+
+        
+        .part {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .text-content p {
+            margin-top: 0px;
+        }
+
+        .box {
+            margin-left: 80px;
+        }
+
+        .custom-table {
+            margin: 0 auto;  /* Center the table */
+            border-collapse: collapse;
+            width: 100%;  /* Adjust the width as needed */
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;  /* Center the container */
+            flex-direction: column;
+            align-items: center;  /* Center the content */
+            background-color: #ffffffbf;
+            padding: 20px;
+            margin-top: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 50px;
+            border-radius: 24px 24px 24px 24px;
+        }
+
+        .custom-table th, .custom-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .custom-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #becfb4;
+            color: black;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .custom-table tr:hover {
+            background-color: #ddd;
+        }
+        .custom-table td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .button {
+            border: 3px solid #a59790;
+            color: #ebe2e2;
+            background-color: #a59790;
+            align-self: flex-start;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            transition: 400ms all;
+            margin-left: 20px;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+        .button:hover {
+            background: rgb(159, 129, 119);
+            color: rgb(231, 231, 231);
+        }
+
+        .link a {
+            border: 3px solid #a59790;
+            color: #ebe2e2;
+            background-color: #a59790;
+            align-self: flex-start;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            transition: 400ms all;
+            margin-left: 0px;
+        }
+
+        .link a:hover {
+            background: #9f8c77;
+            color: rgb(231, 231, 231);
+        }
+        
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <header>
+        <div class="logo">Pet Clinic WanZ</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'adminhome' %}">Home</a></li>
+                <li><a href="{% url 'mainpage' %}">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <section class="card">
+            <div class="container mt-5">
+                <br><br>
+                <h2>Edit Staff</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="staffName">Staff Name:</label>
+                <input type="text" name="staffName" id="staffName" value="{{ staff.staffName }}" required>
+                <label for="staffPassword">Staff Password:</label>
+                <input type="password" name="staffPassword" id="staffPassword">
+                <div class="link">
+                    <a href="{% url 'staff_doc_info' %}">Back</a>
+                    <button type="submit" class="button">Save Changes</button>
+                </div>
+            </form>
+            </div>
+        </section>
+    </article>
+</body>
+</html>

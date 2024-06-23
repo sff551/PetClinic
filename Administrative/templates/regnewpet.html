@@ -1,0 +1,258 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Welcome to our website!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<style>
+    :root {
+        --scrollcolor: #fff;
+        --scrollbackground: #161d14;
+    }
+    * {
+        box-sizing: border-box;
+    }
+    html, body {
+        padding: 0;
+        margin: 0;
+        height: 80vh;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 300;
+        line-height: 1.7;
+        color: #231709;
+        background-image: url('{% static "bgcust.jpg" %}');
+    }
+
+    header {
+        background-color: #686561d4; /* Background color for the header */
+        color: #fff; /* Text color for the header */
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    nav li {
+        display: inline;
+        margin-right: 20px;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    a {
+        color: #F5F5DC; /* Normal link color */
+    }
+
+    a:hover {
+        text-decoration: none;
+        color: #F5F5DC; /* Same color as the normal state */
+    }
+
+    .logo {
+        font-size: 24px;
+        margin-left: 20px;
+    }
+
+    #menu {
+        font-size: 25px;
+        cursor: pointer;
+        background-color: #C7ABAB;
+        color: #fff;
+        padding: 30px;
+    }
+
+    p {
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    h2 {
+        text-decoration: underline;
+        padding-bottom: 20px;
+    }
+    h5 {
+        font-weight: 600;
+        padding-top: 15px;
+        text-decoration: underline;
+    }
+    h4 {
+        padding: 0 0px;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    .section {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10px;
+        padding-bottom: 50px;
+    }
+
+    .container {
+        background-color: rgba(251, 249, 233, 0.792);
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+        padding-bottom: 30px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="date"],
+    select {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+        color: rgb(0, 0, 0);
+        font-weight: 600;
+        background-color: #c7c0b6;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #555250;
+        color: #ffeba7;
+    }
+
+    .success-message {
+        font-size: 24px;
+        font-weight: bold;
+        background-color: #f4e7cb;
+        padding: 15px;
+    }
+
+    .regsuccess {
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+</style>
+<script>
+    function togglePetImage() {
+        var checkbox = document.getElementById('uploadPetImageCheckbox');
+        var fileInput = document.getElementById('uploadPetImageInput');
+        if (checkbox.checked) {
+            fileInput.removeAttribute('disabled');
+        } else {
+            fileInput.setAttribute('disabled', 'disabled');
+        }
+    }
+    
+    $(document).ready(function() {
+        $('#custId').select2({
+            width: '100%', // Adjust width as needed
+            dropdownAutoWidth: true,
+            dropdownCssClass: 'custom-dropdown', // Apply custom dropdown class for styling
+        });
+    });
+</script>
+<body>
+    <header>
+        <div class="logo">Pet Clinic WanZ</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'homepagestaff' %}">Home</a></li>
+                <li><a href="{% url 'mainpage' %}">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="regsuccess">
+        {% if message %}
+            <p class="success-message">{{ message }}</p>
+        {% endif %}
+    </div>
+    <div class="section">
+        <div class="container">
+            <h2>Pet Registration</h2>
+            <form action="{% url 'register_pet' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="petId">Pet ID:</label>
+                <input type="text" id="petId" name="petId" required>
+
+                <label for="owner">Owner:</label>
+                <select id="owner" name="owner">
+                    <option value="">
+                        {% for customer in customers %}
+                            <option value="{{ customer.custId }}">{{ customer.name }} ({{ customer.custId }})</option>
+                        {% endfor %}
+                    </option>
+                </select>
+
+                <div class="form-group">
+                    <label for="petImg">Pet Image</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="uploadPetImageCheckbox" onchange="togglePetImage()">
+                        <label class="form-check-label" for="uploadPetImageCheckbox">Upload image</label>
+                    </div>
+                    <input type="file" class="form-control-file" id="uploadPetImageInput" name="petImg" disabled>
+                </div> 
+                <label for="petName">Pet Name</label>
+                <input type="text" id="petName" name="petName" required>
+        
+                <label for="petNeuterDate">Neuter Date</label>
+                <input type="date" id="petNeuterDate" name="petNeuterDate" required>
+        
+                <label for="petVaccinationDate">Vaccination Date</label>
+                <input type="date" id="petVaccinationDate" name="petVaccinationDate" required>
+        
+                <label for="petServiceName">Service Name</label>
+                <input type="text" id="petServiceName" name="petServiceName" required>
+        
+                <label for="petServiceDateReceived">Service Date Received</label>
+                <input type="date" id="petServiceDateReceived" name="petServiceDateReceived" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

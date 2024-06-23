@@ -1,0 +1,277 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta property="og:type" content="website" />
+    <meta content="summary_large_image" name="twitter:card" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            --scrollcolor: #fff;
+            --scrollbackground: #161d14;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 80vh;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            color: #231709;
+            background-image: url('{% static "custbg.jpg" %}');
+            background-size: cover; /* Ensures the background image covers the entire page */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the background image from repeating */
+            background-attachment: fixed;
+        }
+        .title {
+            font-size: 2.5rem;
+            font-family: system-ui;
+            line-height: 1.1;
+            font-weight: 300;
+            color: #fff;
+            margin: 4rem auto 1rem;
+            width: 85%;
+            max-width: 1280px;
+        }
+
+        #menu {
+            font-size: 25px;
+            cursor: pointer;
+            background-color: #C7ABAB;
+            color: #fff;
+            padding: 30px;
+        }
+        
+        header {
+            background-color: #686561d4;
+            color: #fff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            margin-left: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding-right: 30px;
+        }
+        @import url(https://fonts.googleapis.com/css?family=Poppins:400,300,500);
+        html {
+            box-sizing: border-box;
+        }
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        section.card {
+            background: #becbda5f;
+            border-radius: 24px 24px 24px 24px;
+            padding: 48px 48px 48px 420px;
+            margin: 48px 0;
+            min-width: 640px;
+            display: flex;
+            flex-direction: row;
+            align-self: flex-start;
+            position: relative;
+        }
+        section.card .text-content {
+            display: flex;
+            flex-direction: column;
+            width: calc(60vw - 192px);
+        }
+        section.card .text-content h2 {
+            margin: 0px;
+            font-size: 1.5em;
+            max-width: 20ch;
+            color: #000000;
+        }
+        section.card .text-content p {
+            color: #080808;
+        }
+        section.card .text-content a {
+            border: 3px solid #909ba5;
+            color: #ebe2e2;
+            background-color: #909ba5;
+            align-self: flex-start;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            transition: 400ms all;
+            margin-left: 80px;
+        }
+        section.card .text-content a:hover {
+            background: rgb(119, 132, 159);
+            color: rgb(231, 231, 231);
+        }
+        section.card .visual {
+            width: 540px;
+            height: 50%;
+            position: absolute;
+            top: 162px;
+            left: 87px;
+            overflow: hidden;
+            border-radius: 24px;
+        }
+        section.card .visual img {
+            height: 100%;
+            justify-content: center;
+        }
+        article {
+            margin: auto;
+            display: block;
+            width: calc(60vw + 248px);
+            max-width: calc(920px + 248px);
+            min-width: calc(640px + 248px); 
+        }
+        @media all and (max-width: 1100px) {
+            body {
+                padding: 96px 48px 24px;
+            }
+            article {
+                width: 100%;
+                min-width: 100%;
+            }
+            section.card {
+                min-width: 100%;
+            }
+            section.card .text-content {
+                width: 100%;
+            }
+        }
+        @media all and (max-width: 720px) {
+            body {
+                padding: 48px 24px 0;
+            }
+            section.card {
+                margin: 64px 20px;
+                padding: 88px 36px 36px;
+                flex-direction: column;
+                border-radius: 24px;
+            }
+            section.card .text-content h2 {
+                max-width: calc(100% - 150px);
+                font-size: 1em;
+            }
+            section.card .text-content p,
+            section.card .text-content a {
+                font-size: 0.8em;
+            }
+            section.card .visual {
+                width: 70px;
+                height: 2px;
+                border-radius: 50%;
+                justify-content: center;
+            }
+            section.card .visual img{
+                width: 70px;
+                height: 2px;
+                justify-content: center;
+            }
+        }
+        
+        .part {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .text-content p {
+            margin-top: 0px;
+        }
+
+        .box {
+            margin-left: 80px;
+        }
+
+        .custom-table {
+            margin: 20px;  /* Adjust the margin as needed */
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .custom-table th, .custom-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .custom-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #f2f2f2;
+            color: black;
+        }
+        .custom-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .custom-table tr:hover {
+            background-color: #ddd;
+        }
+        .custom-table td {
+            border-bottom: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <header>
+        <div class="logo">Pet Clinic WanZ</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'adminhome' %}">Home</a></li>
+                <li><a href="{% url 'mainpage' %}">Log Out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <article>
+        <h1>Pet Information</h1>
+    
+    <ul>
+        {% for pet in pets %}
+        <li>
+            <strong>Pet Name:</strong> {{ pet.petName }}<br>
+            {% if pet.petImg %}
+            <img src="{{ pet.petImg.url }}" alt="{{ pet.petName }} image"><br>
+            {% endif %}
+            <strong>Neuter Date:</strong> {{ pet.petNeuterDate }}<br>
+            <strong>Vaccination Date:</strong> {{ pet.petVaccinationDate }}<br>
+            <strong>Service Name:</strong> {{ pet.petServiceName }}<br>
+            <strong>Service Date Received:</strong> {{ pet.petServiceDateReceived }}<br>
+        </li>
+        {% endfor %}
+    </ul>
+    </article>
+</body>
+</html>
