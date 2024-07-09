@@ -24,7 +24,7 @@ def adminlogin(request):
         
         print(f"Admin ID: {adminId1}")  # Debugging line
         print(f"Provided Password: {adminPassword1}")
-        # Authenticate admin
+
         try:
             admin = Admin.objects.get(adminId=adminId1)
             if check_password(adminPassword1, admin.adminPassword):
@@ -33,18 +33,16 @@ def adminlogin(request):
                 if admin.last_login is not None:
                     request.session['lastLogin'] = admin.last_login.strftime('%Y-%m-%d %H:%M:%S')
                 else:
-                    request.session['lastLogin'] = 'First login'  # Or any other appropriate message
+                    request.session['lastLogin'] = 'First login' 
                 
-                # Update last login time
                 admin.last_login = timezone.now()
                 admin.save()
                 
                 return redirect('adminhome')
             else:
-                # Handle incorrect password
                 context = {'message1': 'Incorrect password. Please try again.'}
         except Admin.DoesNotExist:
-            # Handle admin not found
+
             context = {'message1': 'Admin ID not found. Please try again.'}
     
     return render(request, 'adminlogin.html')
@@ -55,25 +53,20 @@ def loginstaff(request):
         staffId1 = request.POST.get('staffId')
         staffPassword1 = request.POST.get('staffPassword')
 
-        print(f"Staff ID: {staffId1}")  # Debugging line
+        print(f"Staff ID: {staffId1}") 
         print(f"Provided Password: {staffPassword1}")
         try:
-            # Fetch the staff member with the given ID
             staff_member = Staff.objects.get(staffId=staffId1)
             print(f"Stored Hashed Password: {staff_member.staffPassword}")
 
-            # Check if the provided password matches the stored password
             if check_password(staffPassword1, staff_member.staffPassword):
-                # Update the last login timestamp
                 staff_member.last_login = timezone.now()
                 staff_member.save()
 
-                # Store staff information in session
                 request.session['staffId'] = staff_member.staffId
                 request.session['staffName'] = staff_member.staffName
                 request.session['lastLogin'] = staff_member.last_login.strftime('%Y-%m-%d %H:%M:%S')
 
-                # Redirect to the homepagestaff.html page upon successful login
                 return redirect('homepagestaff')
             else:
                 context = {'message1': 'Incorrect password. Please try again.'}
@@ -90,22 +83,17 @@ def logindoctor(request):
         docPassword1 = request.POST['docPassword']
 
         try:
-            # Fetch the doctor with the given ID
             doctor_member = Doctor.objects.get(docId=docId1)
 
-            # Check if the provided password matches the stored password
             if check_password(docPassword1, doctor_member.docPassword):
-                # Update last login time
                 doctor_member.last_login = timezone.now()
                 doctor_member.save()
-
-                # Store doctor information in session
+                
                 request.session['docId'] = doctor_member.docId
                 request.session['docName'] = doctor_member.docName
                 request.session['lastLogin'] = doctor_member.last_login.strftime('%Y-%m-%d %H:%M:%S')
 
-                # Redirect to the homepagestaff.html page upon successful login
-                return redirect('homepagedoctor')  # Redirect to the correct URL name for homepagedoctor.html
+                return redirect('homepagedoctor')
             else:
                 context = {
                     'message1': 'Incorrect password. Please try again.'
@@ -131,7 +119,6 @@ def register_customer(request):
         custAdd = request.POST.get('customerAddress')
         custDateReg = request.POST.get('dateRegistered')
 
-        # Hash the password before saving
         hashed_password = make_password(custPassword)
         customer = Customer(custId=custId, custName=custName, custPassword=hashed_password, custTelNo=custTelNo, custAdd=custAdd, custDateReg=custDateReg)
         customer.save()
@@ -157,11 +144,10 @@ def register_pet(request):
             try:
                 pet = Pet.objects.get(petId=petId)
             except Pet.DoesNotExist:
-                # If the Pet object doesn't exist, create a new one
                 pet = Pet(petId=petId, custId=customer, petName=petName)
                 pet.save()
 
-            # Create or update PetInfo instance
+
             pet_info = Pet(
                 custId=customer,
                 petId=pet,
@@ -172,10 +158,8 @@ def register_pet(request):
                 petServiceDateReceived=petServiceDateReceived,
             )
 
-            # Save pet_info instance
             pet_info.save()
 
-            # Handle pet image upload if present
             if 'petImg' in request.FILES:
                 pet_info.petImg = request.FILES['petImg']
                 pet_info.save()
@@ -204,11 +188,11 @@ def register_pet(request):
 
 
 def pet_registration(request):
-    customers = Customer.objects.all()  # Fetch all customer data
+    customers = Customer.objects.all() 
     context = {
         'customers': customers
     }
-    print("Customers in context:", context['customers'])  # Debug output
+    print("Customers in context:", context['customers'])
     return render(request, 'regnewpet.html', context)
 
 
@@ -239,14 +223,13 @@ def homepagecust(request):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer_name = request.session['customer_name']
-        
-        # Retrieve pets associated with the logged-in customer
+
         pets = Pet.objects.filter(custId=customer_id)
         
         context = {
             'customer_id': customer_id,
             'customer_name': customer_name,
-            'pets': pets  # Pass the pets queryset to the template
+            'pets': pets
         }
         return render(request, "homepagecust.html", context)
     else:
@@ -293,7 +276,7 @@ def staff_list_of_customers(request):
 
 def staff_setting_page(request, cust_id):
     customer = get_object_or_404(Customer, custId=cust_id)
-    context = {'customer': customer, 'cust_id': cust_id}  # Pass the cust_id to the template
+    context = {'customer': customer, 'cust_id': cust_id} 
     return render(request, 'staffsettingpage.html', context)
 
 def save_customer_settings(request, cust_id):
@@ -450,7 +433,6 @@ def staff_doc_info(request):
     doctors = Doctor.objects.all()
     return render(request, 'staffdocinfo.html', {'staffs': staffs, 'doctors': doctors})
 
-# View to add new staff
 def add_staff(request):
     if request.method == 'POST':
         staffId = request.POST.get('staffId')
@@ -459,7 +441,6 @@ def add_staff(request):
         Staff.objects.create(staffId=staffId, staffName=staffName, staffPassword=staffPassword)
         return redirect('staff_doc_info')
 
-# View to add new doctor
 def add_doctor(request):
     if request.method == 'POST':
         docId = request.POST.get('docId')
@@ -468,7 +449,6 @@ def add_doctor(request):
         Doctor.objects.create(docId=docId, docName=docName, docPassword=docPassword)
         return redirect('staff_doc_info')
 
-# View to edit staff
 def edit_staff(request, staff_id):
     staff = get_object_or_404(Staff, pk=staff_id)
     if request.method == 'POST':
@@ -479,7 +459,6 @@ def edit_staff(request, staff_id):
         return redirect('staff_doc_info')
     return render(request, 'edit_staff.html', {'staff': staff})
 
-# View to edit doctor
 def edit_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor, pk=doctor_id)
     if request.method == 'POST':
@@ -490,13 +469,11 @@ def edit_doctor(request, doctor_id):
         return redirect('staff_doc_info')
     return render(request, 'edit_doctor.html', {'doctor': doctor})
 
-# View to delete staff
 def delete_staff(request, staff_id):
     staff = get_object_or_404(Staff, pk=staff_id)
     staff.delete()
     return redirect('staff_doc_info')
 
-# View to delete doctor
 def delete_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor, pk=doctor_id)
     doctor.delete()
